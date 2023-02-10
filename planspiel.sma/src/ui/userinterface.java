@@ -60,8 +60,7 @@ public class userinterface {
 	}
 
 	public void loadSettings() {
-		try (BufferedReader br = new BufferedReader(
-				new FileReader("C:\\Users\\Lukas\\eclipse-workspace\\planspiel.sma\\src\\ui\\settings.csv"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("./ordner/settings.csv"))) {
 			String line = br.readLine();
 			String[] values = line.split(",");
 			this.textSpeed = Integer.parseInt(values[0].trim());
@@ -75,8 +74,7 @@ public class userinterface {
 	public void writeSettings(int textSpeed, int rundenanzahl, int spieleranzahl) {
 
 		try {
-			BufferedWriter writer = new BufferedWriter(
-					new FileWriter("C:\\Users\\Lukas\\eclipse-workspace\\planspiel.sma\\src\\ui\\settings.csv"));
+			BufferedWriter writer = new BufferedWriter(new FileWriter("./ordner/settings.csv"));
 			writer.write(textSpeed + "," + rundenanzahl + "," + spieleranzahl);
 			writer.close();
 		} catch (IOException e) {
