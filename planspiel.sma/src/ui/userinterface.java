@@ -1,5 +1,10 @@
 package ui;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,28 +18,29 @@ public class userinterface {
 	Scanner scan = new Scanner(System.in);
 	private int textSpeed = 25;
 	private int rundenanzahl = 3;
-	private int spieleranzahl = 2;
+	private int spieleranzahl = 3;
 	gamecontroller game = new gamecontroller();
 	scenario szen = new scenario();
 	private String message;
 	ArrayList<Rolle> currentroles = new ArrayList<Rolle>();
+	boolean bool = true;
 
 	public void startGame() {
-		game.createRoles();
-		boolean bool = true;
+		loadSettings();
 		print("Willkommen !");
 		while (bool) {
 			System.out.println("");
 			message = "1. Spiel starten\n2. Einstellungen\n3. Autoren\n4. Beenden";
 			print(message);
 			int wahl = validateInput(message, x -> x >= 1 && x <= 4);
-
 			switch (wahl) {
 			case 1:
 				System.out.println("____________________");
 				print("Spiel starten !");
+				game.createRoles();
 				assignRoles();
 				playScenario();
+				newGame();
 				break;
 			case 2:
 				System.out.println("____________________");
@@ -53,12 +59,56 @@ public class userinterface {
 
 	}
 
+	public void loadSettings() {
+		try (BufferedReader br = new BufferedReader(
+				new FileReader("C:\\Users\\Lukas\\eclipse-workspace\\planspiel.sma\\src\\ui\\settings.csv"))) {
+			String line = br.readLine();
+			String[] values = line.split(",");
+			this.textSpeed = Integer.parseInt(values[0].trim());
+			this.rundenanzahl = Integer.parseInt(values[1].trim());
+			this.spieleranzahl = Integer.parseInt(values[2].trim());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void writeSettings(int textSpeed, int rundenanzahl, int spieleranzahl) {
+
+		try {
+			BufferedWriter writer = new BufferedWriter(
+					new FileWriter("C:\\Users\\Lukas\\eclipse-workspace\\planspiel.sma\\src\\ui\\settings.csv"));
+			writer.write(textSpeed + "," + rundenanzahl + "," + spieleranzahl);
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("Fehler beim Schreiben der Einstellungen: " + e.getMessage());
+		}
+	}
+
+	public void newGame() {
+		System.out.println("");
+		print("1. Weiter spielen");
+		print("2. Spiel Beenden");
+		int wahl = validateInput(message, x -> x >= 1 && x <= 2);
+		switch (wahl) {
+		case 1:
+			game.createRoles();
+			currentroles = new ArrayList<Rolle>();
+			game = new gamecontroller();
+			szen = new scenario();
+			break;
+		case 2:
+			bool = false;
+			break;
+		}
+
+	}
+
 	public void settings() {
 		print("1. Text-speed");
 		print("2. Spieler anzahl");
 		print("3. Runden anzahl");
 		print("4. zurück");
-		int wahl = Integer.parseInt(scan.nextLine());
+		int wahl = validateInput("settings", x -> x >= 1 && x <= 4);
 		switch (wahl) {
 		case 1:
 			changeTextSpeed();
@@ -79,6 +129,7 @@ public class userinterface {
 		System.out.println();
 		print("Eingabe: ");
 		spieleranzahl = Integer.parseInt(scan.nextLine());
+		writeSettings(textSpeed, rundenanzahl, spieleranzahl);
 
 	}
 
@@ -87,6 +138,7 @@ public class userinterface {
 		System.out.println();
 		print("Eingabe: ");
 		rundenanzahl = Integer.parseInt(scan.nextLine());
+		writeSettings(textSpeed, rundenanzahl, spieleranzahl);
 
 	}
 
@@ -95,6 +147,7 @@ public class userinterface {
 		System.out.println();
 		print("Eingabe: ");
 		textSpeed = Integer.parseInt(scan.nextLine());
+		writeSettings(textSpeed, rundenanzahl, spieleranzahl);
 	}
 
 	public void playScenario() {
@@ -112,21 +165,61 @@ public class userinterface {
 
 		switch (wahl) {
 		case 1:
+			szen.start(
+					"Ihr Arbeitgeber hat sich auf den Betrieb von Supermärkten und Lebensmittelgeschäften spezialisiert.\r\n"
+							+ "Es werden Filialen in ganz Deutschland betrieben und ihr Unternehmen ist vor allem durch sein\r\n"
+							+ "breites Angebot an Bio-Lebensmitteln bekannt. Das Unternehmen legt großen Wert auf\r\n"
+							+ "Nachhaltigkeit und setzt sich für den Schutz der Umwelt und den fairen Handel mit Produzenten ein.\r\n"
+							+ "",
+					"Nach einem Cyber-Angriff sind gestohlene Daten von einigen ihrer Kunden im Darknet aufgetaucht.\r\n"
+							+ "Die Daten stammen aus Marktumfragen und enthalten Name, Anschrift sowie Einkaufspräferenzen\r\n"
+							+ "der Kunden. Die unbekannten Täter sorgen für Verunsicherung bei ihren Kunden, Mitarbeitenden\r\n"
+							+ "und Lieferanten.",
+					currentroles, 0, rundenanzahl);
 			break;
 		case 2:
+			szen.start(
+					"SolarWinds ist ein US-amerikanisches Unternehmen, das Software für Unternehmen entwickelt, um\r\n"
+							+ "ihre Netzwerke, Systeme und Informationstechnologie-Infrastruktur zu verwalten. Es hat seinen\r\n"
+							+ "Hauptsitz in Austin, Texas. Das Unternehmen war von Mai 2009 bis Ende 2015 und erneut von\r\n"
+							+ "Oktober 2018 an der Börse gelistet. Ende 2020 hatte es etwa 300.000 Kunden, 2021 einen Umsatz\r\n"
+							+ "von 718 Millionen USD und ca. 900 Mitarbeiter.\r\n" + "",
+					"Der Hersteller einer von uns eingesetzten Software wurde gehackt.\r\n"
+							+ "Der Hersteller betreibt die Software in seinem eigenen Rechenzentrum, in dem ein\r\n"
+							+ "entsprechender Sicherheitsvorfall stattgefunden hat.\r\n" + "",
+					currentroles, 5, rundenanzahl);
 			break;
 		case 3:
 			szen.start(
-					"Ihre Firma die Ökostromgruppe Freiburg betreibt Anlagen zur Stromversorgung" + '\n'
-							+ "auf Basis erneuerbarer Energien. Das Ziel des Unternehmens besteht darin, eine" + '\n'
-							+ "umweltfreundliche und zuverlässige Energiequelle anzubieten, auf die sich die",
+					"Ihre Firma die “Ökostromgruppe Freiburg” betreibt Anlagen zur Stromversorgung\r\n"
+							+ "auf Basis erneuerbarer Energien. Das Ziel des Unternehmens besteht darin, eine\r\n"
+							+ "umweltfreundliche und zuverlässige Energiequelle anzubieten, auf die sich die\r\n"
+							+ "Kunden verlassen können.\r\n" + "",
 					"Aufgrund von Hackerangriffen und eine darauffolgende Störung des"
 							+ " Sataliteninternets fallen rund 5.800 ihrer Windkraftanlagen aus.",
 					currentroles, 10, rundenanzahl);
 			break;
 		case 4:
+			szen.start(
+					"Sie sind Mitarbeiter bei einem Unternehmen, das unter anderem Server und Software für den Handel\r\n"
+							+ "mit Kryptowährungen anbietet. Da ihre Branche in der Vergangenheit häufig mit negativen\r\n"
+							+ "Schlagzeilen rund um Hackerangriffe zu tun hatte, ist es für ihr Unternehmen besonders wichtig,\r\n"
+							+ "einfach auszuführende, aber sichere Dienste anzubieten.\r\n" + "",
+					"Es wurde eine unrechtmäßige Transaktion über 29,6 Bitcoins bemerkt. Die Bitcoins wurden von dem\r\n"
+							+ "Konto des Unternehmens auf eine unbekannte Adresse überwiesen. Es herrscht aktuell große\r\n"
+							+ "Verunsicherung darüber, wer diese Transaktion veranlasst hat und mit welchen Mitteln. Die erste\r\n"
+							+ "Vermutung fällt auf einen ehemaligen IT-Administrator.\r\n" + "",
+					currentroles, 15, rundenanzahl);
 			break;
 		case 5:
+			szen.start("Der Geschäftsbereich ihrer Firma „Ubiquiti Networks Inc.“ ist die Herstellung von\r\n"
+					+ "Netzwerkkomponenten. Neben dem ursprünglichen Produkte WLAN-Adapter, umfasst ihr Sortiment\r\n"
+					+ "seit 2007 nun auch weitere Netzwerkkomponenten darunter WLAN- Router, Accesspoints und vieles\r\n"
+					+ "mehr. ",
+					"Ihr Unternehmen wird Opfer einer Cyberattacke bei dem sich Angreifer als CEO ausgeben. In den\r\n"
+							+ "Folgen des Angriffs wurden Überweisung von Geldern in Höhe von 46,7 Millionen Dollar\r\n"
+							+ "durchgeführt. ",
+					currentroles, 20, rundenanzahl);
 			break;
 		}
 	}
