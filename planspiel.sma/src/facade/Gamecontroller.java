@@ -6,7 +6,7 @@ import domain.Roles;
 import domain.Rolle;
 import domain.Teilszenarien;
 
-public class gamecontroller {
+public class Gamecontroller {
 	Roles roles = new Roles();
 	Teilszenarien szen = new Teilszenarien();
 
@@ -27,3 +27,4 @@ public class gamecontroller {
 	}
 
 }
+
