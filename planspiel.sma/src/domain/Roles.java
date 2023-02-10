@@ -54,8 +54,7 @@ public class Roles {
 		antwortenInformationssicherheitsbeauftragter.add(
 				"Überwachung von E-Mail-Kommunikation und Verhinderung unautorisierter Überweisungen (Datenschutztechnisch bedenklich!)");
 		antwortenInformationssicherheitsbeauftragter.add(
-				"Implementierung von Technologien wie Multi-Faktor-Authentifizierung und Verschlüsselung, um die Sicherheit von Finanztransaktionen zu erhöhen.\r\n"
-						+ "");
+				"Implementierung von Technologien wie Multi-Faktor-Authentifizierung und Verschlüsselung, um die Sicherheit von Finanztransaktionen zu erhöhen.");
 		antwortenInformationssicherheitsbeauftragter.add(
 				"Überwachung und Überprüfung von Drittanbietern, die Zugang zu sensiblen Daten und Systemen haben.");
 		antwortenInformationssicherheitsbeauftragter.add("Keine Handlung unternehmen.");
