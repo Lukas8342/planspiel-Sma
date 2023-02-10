@@ -1,5 +1,8 @@
 package ui;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Predicate;
@@ -33,9 +36,23 @@ public class scenario {
 		round(rollen, scenarioId, rundenanzahl);
 	}
 
+	int validate = 0;
+
+	public void loadSettings() {
+		try (BufferedReader br = new BufferedReader(
+				new FileReader("C:\\Users\\Lukas\\eclipse-workspace\\planspiel.sma\\src\\ui\\settings.csv"))) {
+			String line = br.readLine();
+			String[] values = line.split(",");
+			this.textSpeed = Integer.parseInt(values[0].trim());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void round(ArrayList<Rolle> rollen, int scenarioId, int rundenanzahl) {
 		for (int runde = 0; runde < rundenanzahl; runde++) {
 			for (int i = 1; i < rollen.size(); i++) { // Role Array fängt bei 1 an (Id 1-6)
+				validate = i;
 				if (rollen.get(i).getSpielername() != null) {
 					print(rollen.get(i).getSpielername() + "(" + rollen.get(i).getName() + ") "
 							+ "welche der folgenden Aktionen möchten sie durchführen? ");
@@ -43,10 +60,12 @@ public class scenario {
 					for (int n = 0; n < rollen.get(i).getAnwortliste().size(); n++) {
 						System.out.println((n + 1) + ". " + rollen.get(i).getAnwortliste().get(n));
 					}
-					String wahl = scan.nextLine();
-					int auswahl = Integer.parseInt(wahl) - 1; // Antworten im Array sind von 0 - ...
-					bewertung(auswahl, rollen.get(i).getId(), scenarioId);
 
+					int auswahl = validateInput("", x -> x >= 1 && x <= rollen.get(validate).getAnwortliste().size())
+							- 1;
+
+					bewertung(auswahl, rollen.get(i).getId(), scenarioId);
+					rollen.get(validate).getAnwortliste().remove(auswahl);
 				}
 			}
 			if (runde + 1 < rundenanzahl) {
