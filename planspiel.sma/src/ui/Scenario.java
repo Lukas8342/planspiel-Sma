@@ -7,11 +7,11 @@ import java.util.function.Predicate;
 
 import domain.Bewertung;
 import domain.Rolle;
-import facade.gamecontroller;
+import facade.Gamecontroller;
 
 public class Scenario {
 	Bewertung bewerte = new Bewertung();
-	gamecontroller game = new gamecontroller();
+	Gamecontroller game = new Gamecontroller();
 	int textSpeed = 25;
 	Scanner scan = new Scanner(System.in);
 	String[] teilszenarien;
