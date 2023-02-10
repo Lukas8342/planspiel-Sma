@@ -14,13 +14,13 @@ import java.util.function.Predicate;
 import domain.Rolle;
 import facade.gamecontroller;
 
-public class userinterface {
+public class Userinterface {
 	Scanner scan = new Scanner(System.in);
 	private int textSpeed = 25;
 	private int rundenanzahl = 3;
 	private int spieleranzahl = 3;
 	gamecontroller game = new gamecontroller();
-	scenario szen = new scenario();
+	Scenario szen = new Scenario();
 	private String message;
 	ArrayList<Rolle> currentroles = new ArrayList<Rolle>();
 	boolean bool = true;
@@ -30,9 +30,9 @@ public class userinterface {
 		print("Willkommen !");
 		while (bool) {
 			System.out.println("");
-			message = "1. Spiel starten\n2. Einstellungen\n3. Autoren\n4. Beenden";
+			message = "1. Spiel starten\n2. Einstellungen\n3. Autoren\n4. Hilfe\n5. Beenden";
 			print(message);
-			int wahl = validateInput(message, x -> x >= 1 && x <= 4);
+			int wahl = validateInput(message, x -> x >= 1 && x <= 5);
 			switch (wahl) {
 			case 1:
 				System.out.println("____________________");
@@ -51,6 +51,9 @@ public class userinterface {
 				authoren();
 				break;
 			case 4:
+				hilfe();
+				break;
+			case 5:
 				System.out.println("_______________________");
 				print("Spiel beenden, tschüss! ");
 				bool = false;
@@ -92,7 +95,7 @@ public class userinterface {
 			game.createRoles();
 			currentroles = new ArrayList<Rolle>();
 			game = new gamecontroller();
-			szen = new scenario();
+			szen = new Scenario();
 			break;
 		case 2:
 			bool = false;
@@ -173,7 +176,7 @@ public class userinterface {
 							+ "Die Daten stammen aus Marktumfragen und enthalten Name, Anschrift sowie Einkaufspräferenzen\r\n"
 							+ "der Kunden. Die unbekannten Täter sorgen für Verunsicherung bei ihren Kunden, Mitarbeitenden\r\n"
 							+ "und Lieferanten.",
-					currentroles, 0, rundenanzahl);
+					currentroles, 0, rundenanzahl, textSpeed);
 			break;
 		case 2:
 			szen.start(
@@ -185,7 +188,7 @@ public class userinterface {
 					"Der Hersteller einer von uns eingesetzten Software wurde gehackt.\r\n"
 							+ "Der Hersteller betreibt die Software in seinem eigenen Rechenzentrum, in dem ein\r\n"
 							+ "entsprechender Sicherheitsvorfall stattgefunden hat.\r\n" + "",
-					currentroles, 5, rundenanzahl);
+					currentroles, 5, rundenanzahl, textSpeed);
 			break;
 		case 3:
 			szen.start(
@@ -195,7 +198,7 @@ public class userinterface {
 							+ "Kunden verlassen können.\r\n" + "",
 					"Aufgrund von Hackerangriffen und eine darauffolgende Störung des"
 							+ " Sataliteninternets fallen rund 5.800 ihrer Windkraftanlagen aus.",
-					currentroles, 10, rundenanzahl);
+					currentroles, 10, rundenanzahl, textSpeed);
 			break;
 		case 4:
 			szen.start(
@@ -207,7 +210,7 @@ public class userinterface {
 							+ "Konto des Unternehmens auf eine unbekannte Adresse überwiesen. Es herrscht aktuell große\r\n"
 							+ "Verunsicherung darüber, wer diese Transaktion veranlasst hat und mit welchen Mitteln. Die erste\r\n"
 							+ "Vermutung fällt auf einen ehemaligen IT-Administrator.\r\n" + "",
-					currentroles, 15, rundenanzahl);
+					currentroles, 15, rundenanzahl, textSpeed);
 			break;
 		case 5:
 			szen.start("Der Geschäftsbereich ihrer Firma „Ubiquiti Networks Inc.“ ist die Herstellung von\r\n"
@@ -217,7 +220,7 @@ public class userinterface {
 					"Ihr Unternehmen wird Opfer einer Cyberattacke bei dem sich Angreifer als CEO ausgeben. In den\r\n"
 							+ "Folgen des Angriffs wurden Überweisung von Geldern in Höhe von 46,7 Millionen Dollar\r\n"
 							+ "durchgeführt. ",
-					currentroles, 20, rundenanzahl);
+					currentroles, 20, rundenanzahl, textSpeed);
 			break;
 		}
 	}
@@ -310,6 +313,63 @@ public class userinterface {
 		System.out.println();
 		print("Sma - Planspiel WS22/23");
 
+	}
+
+	public void hilfe() {
+		message = "1. Rollenbeschreibungen\n2. zurück";
+		print(message);
+		int wahl = validateInput(message, x -> x >= 1 && x <= 2);
+		switch (wahl) {
+		case 1:
+			System.out.println("");
+			System.out.println("Die Rolle des Geschäftsführers\r\n" + "");
+			System.out.println("-----------------------------------------");
+			System.out.println(
+					"Du bist Geschäftsführer und hast eine beeindruckende Karriere aufgebaut. Mit Abschluss vieler\r\n"
+							+ "Fortbildungen und Führungsjobs verfügst Du über umfassende Fachkenntnisse und\r\n"
+							+ "Führungserfahrung.");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("Die Rolle des Informationssicherheitsbeauftragten\r\n" + "");
+			System.out.println("-----------------------------------------");
+			System.out.println(
+					"Du bist Informationssicherheitsbeauftragte und hast eine umfangreiche Karriere im Bereich der\r\n"
+							+ "Informationssicherheit aufgebaut. Mit durch deinen Hintergrund, verfügst Du über tiefgreifendes\r\n"
+							+ "Wissen und Erfahrung in der Umsetzung von Informationssicherheitsstrategien und -maßnahmen.\r\n"
+							+ "");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("Die Rolle des Datenschutzbeauftragten\r\n" + "");
+			System.out.println("-----------------------------------------");
+			System.out.println(
+					"Du bist ein Datenschutzbeauftragter mit absolviertem Studium der Rechtswissenschaften mit\r\n"
+							+ "Schwerpunkt Datenschutzrecht. Nach einigen Jahren praktischer Erfahrung in einer Kanzlei, die sich\r\n"
+							+ "auf Datenschutzrecht spezialisiert hat, wechselte Du in die Industrie und übernimmst dort die Rolle\r\n"
+							+ "des Datenschutzbeauftragten in einem großen Unternehmen.");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("Die Rolle des Leiters der Personalabteilung\r\n" + "");
+			System.out.println("-----------------------------------------");
+			System.out.println(
+					"Du bist der Head of Human Resources verfügst über umfangreiche Erfahrungen im Personalwesen\r\n"
+							+ "und in der Führung von Teams. Mit einem Abschluss in BWL, hat er sich auf die Entwicklung und\r\n"
+							+ "Umsetzung von Personalstrategien spezialisiert.\r\n" + "");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("Die Rolle des Leiters der Marketingabteilung\r\n" + "");
+			System.out.println("-----------------------------------------");
+			System.out
+					.println("Du bist der Head of Marketing und Du besitzt breite Erfahrungen in der Gestaltung und\r\n"
+							+ "Umsetzungen von erfolgreichen Marketingstrategien. Mit deinem Abschluss in Marketing hast Du\r\n"
+							+ "ein tiefes Verständnis für die Bedürfnisse des Marktes und die wichtigsten Trends in der Branche.\r\n"
+							+ "");
+			System.out.println("");
+			System.out.println("");
+
+			break;
+		case 2:
+			break;
+		}
 	}
 
 }
