@@ -44,7 +44,22 @@ public class Teilszenarien {
 			"Aufgrund des Ausfalls ihrer Anlagen besteht das Risiko von Stromausfällen, insbesondere bei Kunden in ländlichen Gegenden, die über eine schlechtere Netzanbindung und fehlende Ersatzversorgungsmöglichkeiten verfügen.",
 			"Aufgrund des andauernden Ausfalls der Windkraftanlagen und der kurzfristigen Übernahme von Konkurrenzunternehmen in der Versorgung ihrer Kunden, droht es dem Unternehmen, dass die Umsatzziele für dieses Quartal nicht erreicht werden",
 			"Das Vertrauen der Öffentlichkeit in das Unternehmen sinkt aufgrund der vielen Berichte über den Vorfall in den Medien. Viele Kunden drohen, zu Konkurrenzunternehmen zu wechseln, was das Risiko von Rückgängen bei den Umsatzzahlen erhöhen könnte." };
-	String[] szen4 = { "", "", "", "", "" };
+	String[] szen4 = {
+			"Ihre Kunden ziehen ihre Einlagen ab, da sie befürchten, dass unbefugte Personen Zugriff auf ihre\r\n"
+					+ "Kryptowährungen haben könnten, so wie ihre Kundendaten nicht mehr sicher gespeichert werden.",
+			"Viele Kunden befürchten, das durch den Angriff nicht mehr genau zugeordnet werden kann, zu\r\n"
+					+ "welchen Konten die gestohlenen Bitcoins gehören. Die Integrität der Nutzerdaten nach dem Angriff\r\n"
+					+ "steht in Frage.",
+			"Aus den getroffenen Entscheidungen wurde der Entschluss gezogen, die IT-Systeme des\r\n"
+					+ "Unternehmens vorerst herunterzufahren, um weitere Angriffe zu verhindern. Die Website und der\r\n"
+					+ "Kundensupport sind jetzt nicht mehr erreichbar. Kunden können keine Transaktionen mehr machen\r\n"
+					+ "und die Beschwerden häufen sich.",
+			"Die letzten Entscheidungen haben das Unternehmen viel Geld gekostet. Den Opfern wurde ihr\r\n"
+					+ "Schaden erstattet und Maßnahmen zur Verhinderung zukünftiger Fälle wurden durchgeführt. Das\r\n"
+					+ "Unternehmen steht jetzt in finanzieller Schieflage.\r\n" + "",
+			"Durch ihre vorherigen Entscheidungen ist die öffentliche Wahrnehmung auf ihr Unternehmen\r\n"
+					+ "gesunken. In den sozialen Medien wird schlechtes über ihre Firma verbreitet. Kunden drohen bereits\r\n"
+					+ "zu der Konkurrenz zu wechseln. Negative finanzielle Folgen stehen bevor." };
 	String[] szen5 = {
 			"Ihre Kunden haben Bedenken in der Sicherheit ihrer persönlichen Daten und befürchten die\r\n"
 					+ "Veröffentlichungen oder einen eventuellen Identitätsdiebstahl. ",
