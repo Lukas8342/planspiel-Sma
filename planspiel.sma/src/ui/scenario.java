@@ -1,9 +1,7 @@
 package ui;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
@@ -11,7 +9,7 @@ import domain.Bewertung;
 import domain.Rolle;
 import facade.gamecontroller;
 
-public class scenario {
+public class Scenario {
 	Bewertung bewerte = new Bewertung();
 	gamecontroller game = new gamecontroller();
 	int textSpeed = 25;
@@ -19,9 +17,9 @@ public class scenario {
 	String[] teilszenarien;
 
 	public void start(String unternehmensbeschreibung, String startszenario, ArrayList<Rolle> rollen, int scenarioId,
-			int rundenanzahl) { // Anzahl
+			int rundenanzahl, int textSpeed) { // Anzahl
 		// teilrunden
-		// ?
+		this.textSpeed = textSpeed;
 		teilszenarien = game.getScenario(scenarioId);
 		System.out.println("Ihr Unternehmen: -");
 		System.out.println("----------------------------");
@@ -38,20 +36,9 @@ public class scenario {
 
 	int validate = 0;
 
-	public void loadSettings() {
-		try (BufferedReader br = new BufferedReader(
-				new FileReader("C:\\Users\\Lukas\\eclipse-workspace\\planspiel.sma\\src\\ui\\settings.csv"))) {
-			String line = br.readLine();
-			String[] values = line.split(",");
-			this.textSpeed = Integer.parseInt(values[0].trim());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void round(ArrayList<Rolle> rollen, int scenarioId, int rundenanzahl) {
 		for (int runde = 0; runde < rundenanzahl; runde++) {
-			for (int i = 1; i < rollen.size(); i++) { // Role Array fängt bei 1 an (Id 1-6)
+			for (int i = 0; i < rollen.size(); i++) {
 				validate = i;
 				if (rollen.get(i).getSpielername() != null) {
 					print(rollen.get(i).getSpielername() + "(" + rollen.get(i).getName() + ") "
@@ -74,7 +61,7 @@ public class scenario {
 				System.out.println("");
 			}
 		}
-		last();
+		last(scenarioId);
 	}
 
 	public void bewertung(int antwort, int rolle, int scenarioId) {
@@ -157,7 +144,38 @@ public class scenario {
 
 	}
 
-	public void last() {
+	public void last(int id) {
+		HashMap<Integer, String> map = new HashMap<>();
+
+		map.put(0,
+				"In einem solchen Falle eines Cyber-Angriffs ist es wichtig, alle betroffenen Kunden und Behörden\r\n"
+						+ "schnellstmöglich zu informieren. Eine umfassende Untersuchung, bestehend aus Forensik und\r\n"
+						+ "Penetrationstests, ist notwendig, um die Ursache des Angriffs zu ermitteln und eventuelle\r\n"
+						+ "Schwachstellen im System zu beheben. Dieses Vorgehen ist wichtig, um sicherzustellen, dass ein\r\n"
+						+ "solcher Angriff in Zukunft verhindert wird und die Datensicherheit für alle Beteiligten gewährleistet\r\n"
+						+ "bleibt.\r\n" + "");
+		map.put(5, "Um das Netzwerk und die Daten des Unternehmens zu schützen, ist es von größter Bedeutung,\r\n"
+				+ "strenge und detaillierte Zugriffsberechtigungen zu überprüfen und festzulegen. Eine effektive\r\n"
+				+ "Methode, um das Risiko zu minimieren, ist die Verwendung von Multifaktor-Authentifizierung, die\r\n"
+				+ "eine zusätzliche Sicherheitsebene bereitstellt. Eine enge Kooperation mit externen\r\n"
+				+ "Sicherheitsexperten kann auch dazu beitragen, dass mögliche Schwachstellen rechtzeitig erkannt\r\n"
+				+ "und behoben werden. Es ist wichtig, auch die Versionskontrolle von Softwareupdates im Auge zu\r\n"
+				+ "behalten, um sicherzustellen, dass alle Systeme stets auf dem neuesten Stand sind und somit vor\r\n"
+				+ "potenziellen Angriffen geschützt werden.");
+		map.put(10, "Um in der Zukunft solche Vorfälle zu vermeiden sollte Untersucht werden wie der Administrator\r\n"
+				+ "Zugang zu den Bitcoins erlangt hat und ob das auf eine Sicherheitslücke im System zurückzuführen\r\n"
+				+ "ist. Nach Abschluss der Untersuchung sollte das Ergebnis den Kunden und der Öffentlichkeit\r\n"
+				+ "kommuniziert werden.");
+		map.put(15, "Um in der Zukunft solche Vorfälle zu vermeiden sollte Untersucht werden wie der Administrator\r\n"
+				+ "Zugang zu den Bitcoins erlangt hat und ob das auf eine Sicherheitslücke im System zurückzuführen\r\n"
+				+ "ist. Nach Abschluss der Untersuchung sollte das Ergebnis den Kunden und der Öffentlichkeit\r\n"
+				+ "kommuniziert werden.");
+		map.put(20, "Um die Ursache eines möglichen Cyber-Sicherheitsvorfalls zu ermitteln, ist es notwendig, einen\r\n"
+				+ "Forensik- und Pentest durchzuführen. Diese Tests helfen dabei, mögliche Schwachstellen im System\r\n"
+				+ "aufzudecken und zu beheben. Darüber hinaus wäre es auch sinnvoll, die Mitarbeiter in einer\r\n"
+				+ "Schulung zum Thema IT-Sicherheit zu unterstützen. Dadurch kann das Wissen und die Sensibilität für\r\n"
+				+ "Cyber-Sicherheitsrisiken gestärkt werden, um zukünftigen Vorfällen vorzubeugen.");
+
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");
@@ -165,6 +183,10 @@ public class scenario {
 		print("");
 		print("5 ist die Höchstpunktzahl, -5 die niedrigste");
 		printStats();
+		String abschluss = map.get(id);
+		System.out.println("");
+		print(abschluss);
+
 	}
 
 	private void print(String str) {
