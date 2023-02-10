@@ -12,14 +12,14 @@ import java.util.Scanner;
 import java.util.function.Predicate;
 
 import domain.Rolle;
-import facade.gamecontroller;
+import facade.Gamecontroller;
 
 public class Userinterface {
 	Scanner scan = new Scanner(System.in);
 	private int textSpeed = 25;
 	private int rundenanzahl = 3;
 	private int spieleranzahl = 3;
-	gamecontroller game = new gamecontroller();
+	Gamecontroller game = new Gamecontroller();
 	Scenario szen = new Scenario();
 	private String message;
 	ArrayList<Rolle> currentroles = new ArrayList<Rolle>();
@@ -94,7 +94,7 @@ public class Userinterface {
 		case 1:
 			game.createRoles();
 			currentroles = new ArrayList<Rolle>();
-			game = new gamecontroller();
+			game = new Gamecontroller();
 			szen = new Scenario();
 			break;
 		case 2:
