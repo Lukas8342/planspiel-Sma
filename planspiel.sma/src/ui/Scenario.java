@@ -2,6 +2,7 @@ package ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
@@ -22,14 +23,14 @@ public class Scenario {
 		this.textSpeed = textSpeed;
 		teilszenarien = game.getScenario(scenarioId);
 		System.out.println("Ihr Unternehmen: -");
-		System.out.println("----------------------------");
+		System.out.println("------------------------------------------------------------------------------");
 		print(unternehmensbeschreibung);
-		System.out.println("============================");
+		System.out.println("==============================================================================");
 		System.out.println("Runde 1:");
 		System.out.println("Szenario -");
-		System.out.println("----------------------------");
+		System.out.println("------------------------------------------------------------------------------");
 		print(startszenario);
-		System.out.println("============================");
+		System.out.println("==============================================================================");
 		System.out.println("");
 		round(rollen, scenarioId, rundenanzahl);
 	}
@@ -43,7 +44,8 @@ public class Scenario {
 				if (rollen.get(i).getSpielername() != null) {
 					print(rollen.get(i).getSpielername() + "(" + rollen.get(i).getName() + ") "
 							+ "welche der folgenden Aktionen möchten sie durchführen? ");
-					System.out.println("---------------------------------------------------------------------");
+					System.out
+							.println("------------------------------------------------------------------------------");
 					for (int n = 0; n < rollen.get(i).getAnwortliste().size(); n++) {
 						System.out.println((n + 1) + ". " + rollen.get(i).getAnwortliste().get(n));
 					}
@@ -52,7 +54,8 @@ public class Scenario {
 							- 1;
 
 					bewertung(auswahl, rollen.get(i).getId(), scenarioId);
-					rollen.get(validate).getAnwortliste().remove(auswahl);
+					// rollen.get(validate).getAnwortliste().remove(auswahl);
+					rollen.get(validate).getAnwortliste().set(auswahl, "");
 				}
 			}
 			if (runde + 1 < rundenanzahl) {
@@ -69,44 +72,71 @@ public class Scenario {
 		switch (rolle) {
 		case 1:
 			int[][] j = bewerte.getC1szen(); // Geschäftsführer
-			bewerte.setVertraulichkeit(bewerte.getVertraulichkeit() + j[scenarioId][antwort]);
-			bewerte.setVerfügbarkeit(bewerte.getVerfügbarkeit() + j[scenarioId + 1][antwort]);
-			bewerte.setFinanzen(bewerte.getFinanzen() + j[scenarioId + 2][antwort]);
-			bewerte.setIntegrität(bewerte.getIntegrität() + j[scenarioId + 3][antwort]);
-			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + j[scenarioId + 4][antwort]);
+			bewerte.setVertraulichkeit(
+					bewerte.getVertraulichkeit() + bewert(antwort, j[scenarioId][antwort], scenarioId));
+			bewerte.setVerfügbarkeit(
+					bewerte.getVerfügbarkeit() + bewert(antwort, j[scenarioId + 1][antwort], scenarioId));
+			bewerte.setFinanzen(bewerte.getFinanzen() + bewert(antwort, j[scenarioId + 2][antwort], scenarioId));
+			bewerte.setIntegrität(bewerte.getIntegrität() + bewert(antwort, j[scenarioId + 3][antwort], scenarioId));
+			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + bewert(antwort, j[scenarioId + 4][antwort], scenarioId));
 			break;
 		case 2:
 			int[][] i = bewerte.getC2szen(); // ISMS
-			bewerte.setVertraulichkeit(bewerte.getVertraulichkeit() + i[scenarioId][antwort]);
-			bewerte.setVerfügbarkeit(bewerte.getVerfügbarkeit() + i[scenarioId + 1][antwort]);
-			bewerte.setFinanzen(bewerte.getFinanzen() + i[scenarioId + 2][antwort]);
-			bewerte.setIntegrität(bewerte.getIntegrität() + i[scenarioId + 3][antwort]);
-			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + i[scenarioId + 4][antwort]);
+			bewerte.setVertraulichkeit(
+					bewerte.getVertraulichkeit() + bewert(antwort, i[scenarioId][antwort], scenarioId));
+			bewerte.setVerfügbarkeit(
+					bewerte.getVerfügbarkeit() + bewert(antwort, i[scenarioId + 1][antwort], scenarioId));
+			bewerte.setFinanzen(bewerte.getFinanzen() + bewert(antwort, i[scenarioId + 2][antwort], scenarioId));
+			bewerte.setIntegrität(bewerte.getIntegrität() + bewert(antwort, i[scenarioId + 3][antwort], scenarioId));
+			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + bewert(antwort, i[scenarioId + 4][antwort], scenarioId));
 			break;
 		case 3:
 			int[][] n = bewerte.getC3szen(); // Datenschutzbeauftragter
-			bewerte.setVertraulichkeit(bewerte.getVertraulichkeit() + n[scenarioId][antwort]);
-			bewerte.setVerfügbarkeit(bewerte.getVerfügbarkeit() + n[scenarioId + 1][antwort]);
-			bewerte.setFinanzen(bewerte.getFinanzen() + n[scenarioId + 2][antwort]);
-			bewerte.setIntegrität(bewerte.getIntegrität() + n[scenarioId + 3][antwort]);
-			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + n[scenarioId + 4][antwort]);
+			bewerte.setVertraulichkeit(
+					bewerte.getVertraulichkeit() + bewert(antwort, n[scenarioId][antwort], scenarioId));
+			bewerte.setVerfügbarkeit(
+					bewerte.getVerfügbarkeit() + bewert(antwort, n[scenarioId + 1][antwort], scenarioId));
+			bewerte.setFinanzen(bewerte.getFinanzen() + bewert(antwort, n[scenarioId + 2][antwort], scenarioId));
+			bewerte.setIntegrität(bewerte.getIntegrität() + bewert(antwort, n[scenarioId + 3][antwort], scenarioId));
+			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + bewert(antwort, n[scenarioId + 4][antwort], scenarioId));
 			break;
 		case 4:
 			int[][] a = bewerte.getC4szen(); // HOHR
-			bewerte.setVertraulichkeit(bewerte.getVertraulichkeit() + a[scenarioId][antwort]);
-			bewerte.setVerfügbarkeit(bewerte.getVerfügbarkeit() + a[scenarioId + 1][antwort]);
-			bewerte.setFinanzen(bewerte.getFinanzen() + a[scenarioId + 2][antwort]);
-			bewerte.setIntegrität(bewerte.getIntegrität() + a[scenarioId + 3][antwort]);
-			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + a[scenarioId + 4][antwort]);
+			bewerte.setVertraulichkeit(
+					bewerte.getVertraulichkeit() + bewert(antwort, a[scenarioId][antwort], scenarioId));
+			bewerte.setVerfügbarkeit(
+					bewerte.getVerfügbarkeit() + bewert(antwort, a[scenarioId + 1][antwort], scenarioId));
+			bewerte.setFinanzen(bewerte.getFinanzen() + bewert(antwort, a[scenarioId + 2][antwort], scenarioId));
+			bewerte.setIntegrität(bewerte.getIntegrität() + bewert(antwort, a[scenarioId + 3][antwort], scenarioId));
+			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + bewert(antwort, a[scenarioId + 4][antwort], scenarioId));
 			break;
 		case 5:
 			int[][] b = bewerte.getC5szen(); // HOM
-			bewerte.setVertraulichkeit(bewerte.getVertraulichkeit() + b[scenarioId][antwort]);
-			bewerte.setVerfügbarkeit(bewerte.getVerfügbarkeit() + b[scenarioId + 1][antwort]);
-			bewerte.setFinanzen(bewerte.getFinanzen() + b[scenarioId + 2][antwort]);
-			bewerte.setIntegrität(bewerte.getIntegrität() + b[scenarioId + 3][antwort]);
-			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + b[scenarioId + 4][antwort]);
+			bewerte.setVertraulichkeit(
+					bewerte.getVertraulichkeit() + bewert(antwort, b[scenarioId][antwort], scenarioId));
+			bewerte.setVerfügbarkeit(
+					bewerte.getVerfügbarkeit() + bewert(antwort, b[scenarioId + 1][antwort], scenarioId));
+			bewerte.setFinanzen(bewerte.getFinanzen() + bewert(antwort, b[scenarioId + 2][antwort], scenarioId));
+			bewerte.setIntegrität(bewerte.getIntegrität() + bewert(antwort, b[scenarioId + 3][antwort], scenarioId));
+			bewerte.setWahrnehmung(bewerte.getWahrnehmung() + bewert(antwort, b[scenarioId + 4][antwort], scenarioId));
 			break;
+		}
+	}
+
+	public int bewert(int antwort, int bewertung, int scenarioId) {
+		int multiplikator = 2;
+		if (bewertung == 0) {
+			Random rand = new Random();
+			int randomNumber = rand.nextInt(100) + 1;
+			if (randomNumber > 90) {
+				return -1;
+			} else if (randomNumber > 50) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} else {
+			return bewertung * multiplikator;
 		}
 	}
 
@@ -126,9 +156,9 @@ public class Scenario {
 			}
 		}
 		System.out.println("Szenario -");
-		System.out.println("----------------------------");
+		System.out.println("------------------------------------------------------------------------------");
 		print(teilszenarien[idx]);
-		System.out.println("============================");
+		System.out.println("==============================================================================");
 		teilszenarien[idx] = null;
 
 	}
@@ -181,7 +211,7 @@ public class Scenario {
 		System.out.println("");
 		print("Spiel beendet! Ihre Statisik: ");
 		print("");
-		print("5 ist die Höchstpunktzahl, -5 die niedrigste");
+		// print("5 ist die Höchstpunktzahl, -5 die niedrigste");
 		printStats();
 		String abschluss = map.get(id);
 		System.out.println("");
@@ -190,6 +220,9 @@ public class Scenario {
 	}
 
 	private void print(String str) {
+		if (str == null) {
+			str = " ";
+		}
 		for (int i = 0; i < str.length(); i++) {
 			System.out.print(str.charAt(i));
 			try {
