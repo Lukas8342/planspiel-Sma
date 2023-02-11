@@ -2,6 +2,7 @@ package ui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -63,7 +64,9 @@ public class Userinterface {
 	}
 
 	public void loadSettings() {
-		try (BufferedReader br = new BufferedReader(new FileReader("./ordner/settings.csv"))) {
+		File file = new File("ordner/settings.csv");
+		String absolutePath = file.getAbsolutePath();
+		try (BufferedReader br = new BufferedReader(new FileReader(absolutePath))) {
 			String line = br.readLine();
 			String[] values = line.split(",");
 			this.textSpeed = Integer.parseInt(values[0].trim());
@@ -75,9 +78,11 @@ public class Userinterface {
 	}
 
 	public void writeSettings(int textSpeed, int rundenanzahl, int spieleranzahl) {
+		File file = new File("ordner/settings.csv");
+		String absolutePath = file.getAbsolutePath();
 
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("./ordner/settings.csv"));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(absolutePath));
 			writer.write(textSpeed + "," + rundenanzahl + "," + spieleranzahl);
 			writer.close();
 		} catch (IOException e) {
@@ -127,18 +132,16 @@ public class Userinterface {
 
 	public void changePlayerCount() {
 		print("Spieler anzahl: " + spieleranzahl);
-		System.out.println();
-		print("Eingabe: ");
-		spieleranzahl = Integer.parseInt(scan.nextLine());
+		System.out.println("");
+		spieleranzahl = validateInput(message, x -> x >= 2 && x <= 5);
 		writeSettings(textSpeed, rundenanzahl, spieleranzahl);
 
 	}
 
 	public void changeRoundCount() {
 		print("Runden anzahl: " + rundenanzahl);
-		System.out.println();
-		print("Eingabe: ");
-		rundenanzahl = Integer.parseInt(scan.nextLine());
+		System.out.println("");
+		rundenanzahl = validateInput(message, x -> x >= 2 && x <= 5);
 		writeSettings(textSpeed, rundenanzahl, spieleranzahl);
 
 	}
@@ -146,8 +149,7 @@ public class Userinterface {
 	public void changeTextSpeed() {
 		print("Text-Speed: " + textSpeed);
 		System.out.println();
-		print("Eingabe: ");
-		textSpeed = Integer.parseInt(scan.nextLine());
+		textSpeed = validateInput(message, x -> x >= 1 && x <= 500);
 		writeSettings(textSpeed, rundenanzahl, spieleranzahl);
 	}
 
